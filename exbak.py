@@ -166,7 +166,7 @@ print('           |  $$$$$$$ /$$/\  $$| $$$$$$$/| $$  | $$| $$ \  $$')
 print('            \_______/|__/  \__/|_______/ |__/  |__/|__/  \__/')
 print('')
 print('')
-time.sleep(3)
+time.sleep(2)
 
 stats_headers = ['BAK file', 'File Count', 'File Volume [MB]']
 stats = []
@@ -183,9 +183,9 @@ for file in glob.iglob(abs_folder_path + '**/**', recursive = True):
 		with open(file, 'rb') as f:
 			hexdata = f.read().hex()
 			
-		deflated_hex = hexdata[hexdata.find('2e62616b7801') + 12:] # remove .bak file header (everything up to '.bakx.' in hex)
+		deflated_hex = hexdata[hexdata.find('2e62616b7801') + 12:] # remove .BAK file header (everything up to '.bakx.' in hex)
 		deflated_bytes = bytes.fromhex(deflated_hex)
-		inflated_bytes = zlib.decompress(deflated_bytes, -15) # deflate the rest of the file in the 'no headers' mode
+		inflated_bytes = zlib.decompress(deflated_bytes, -15) # inflate the rest of the file in the 'no headers' mode
 		stream = Exbaktor.from_bytes(inflated_bytes)
 		
 		root_folder = os.path.join(abs_folder_path, data_folder, 'esadb', stream.root_folders.root_folder_name)
